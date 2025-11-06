@@ -12,6 +12,7 @@ import { requestLogger } from './plugins/request-logger.js';
 import { config } from './config/config.js';
 import { createRouter } from './routes/router.js';
 import { createHelloService } from './services/hello-service.js';
+import { createSiteConfigService } from './services/site-config-service.js';
 
 const { appName, contextPath, basePath, metrics } = config.getProperties();
 
@@ -101,8 +102,12 @@ export async function buildApp(
   fastify.register(requestLogger);
 
   const helloService = createHelloService();
+  const siteConfigService = createSiteConfigService();
 
-  const router = async (fastify: FastifyInstance) => createRouter({ fastify, helloService });
+  // Initialize site config service before registering routes
+  await siteConfigService.initialize();
+
+  const router = async (fastify: FastifyInstance) => createRouter({ fastify, helloService, siteConfigService });
 
   fastify.register(router, { prefix: basePath });
 

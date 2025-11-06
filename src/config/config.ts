@@ -111,6 +111,15 @@ const config = convict({
     default: false,
     env: 'METRICS',
   },
+
+  siteConfig: {
+    url: {
+      doc: 'URL for the site configuration service',
+      format: String,
+      default: 'https://services.api.no/api/config/sites',
+      env: 'SITE_CONFIG_URL',
+    },
+  },
 });
 
 const localConfigPath = path.resolve(dirname, './local.json');
