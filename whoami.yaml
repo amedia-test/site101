@@ -1,0 +1,9 @@
+name: template-node-app
+"owner": "presentasjonsplattform"
+"public-channel": "#presentasjonsplattform"
+"private-channel": "#presentasjonsplattform-alerts"
+"ci-channel": "#presentasjonsplattform-ci"
+system: Byggesystem
+availability: low
+confidentiality: none
+integrity: false

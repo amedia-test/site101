@@ -1,0 +1,39 @@
+name: build
+on:
+  pull_request:
+    paths-ignore:
+      - helm/**
+      - "**.md"
+      - whoami.yaml
+
+  push:
+    branches: [master]
+    paths-ignore:
+      - helm/**
+      - "**.md"
+      - whoami.yaml
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: amedia/github-workflows/.github/workflows/node-build.yaml@master
+    with:
+      # for a list of possible options see:
+      #   https://github.com/amedia/github-workflows/blob/master/node.md#inputs
+      node-version: 22.17.0
+      image-name: template_appname
+      eik-publish: false
+      build: false
+      push: true
+      lint: true
+      cache-from: |
+        type=gha
+      cache-to: |
+        type=gha,mode=max
+    secrets: inherit
